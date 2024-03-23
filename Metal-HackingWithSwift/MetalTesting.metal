@@ -6,7 +6,7 @@
 //
 
 #include <metal_stdlib>
-#include <SwiftUI/SwiftUI_Metal.h> 
+#include <SwiftUI/SwiftUI_Metal.h>
 using namespace metal;
 
 
@@ -50,4 +50,15 @@ using namespace metal;
                              SwiftUI::Layer layer,
                              float2 sz) {
     return layer.sample(position);
+}
+
+[[ stitchable ]] half4 passArrayData(float2 position, half4 currentColor
+                                     ,float bounds
+                                     ,device const float *colors, int arraySz
+                                     ) {
+    // first half x has the first 4 color vals
+    // second half x has the next 4 color vals
+    float offsetf = position.x / (bounds);
+    int offset = min(as_type<int>(round(offsetf)), 4);
+    return half4(colors[offset], colors[offset + 1], colors[offset + 2], colors[offset + 3]);
 }

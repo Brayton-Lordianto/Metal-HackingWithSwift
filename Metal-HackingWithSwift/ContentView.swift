@@ -26,6 +26,10 @@ struct ContentView: View {
                 //.distortionEffect(ShaderLibrary.simpleWave(.float(deltaTime)), maxSampleOffset: .zero)
                     .visualEffect { content, proxy in
                         content
+                            .colorEffect(ShaderLibrary.passArrayData(
+                                .float(proxy.size.width),
+                                .floatArray([1.0,0.0,0.0,1.0 , 0.0,1.0,0.0,1.0])
+                            ))
 //                            .distortionEffect(ShaderLibrary.complexWave(
 //                                .float(deltaTime),
 //                                .float2(proxy.size),
@@ -33,7 +37,7 @@ struct ContentView: View {
 //                                .float(strength),
 //                                .float(10)
 //                            ), maxSampleOffset: .zero)
-                            .layerEffect(ShaderLibrary.loupe(.float2(proxy.size)), maxSampleOffset: .zero)
+                            //.layerEffect(ShaderLibrary.loupe(.float2(proxy.size)), maxSampleOffset: .zero)
                     }
                     .gesture(DragGesture(minimumDistance: 0)
                         .onChanged({
